@@ -1,9 +1,15 @@
 package com.dzj.bean;
 
-import java.util.HashMap;
 
-public class LogBean {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class LogVideoBean extends LogBean {
     String deviceId;
 
     String userCode;
@@ -12,6 +18,5 @@ public class LogBean {
 
     String ts;
 
-    HashMap<String, String> Item = new HashMap<>();
-
+    String videoId;
 }

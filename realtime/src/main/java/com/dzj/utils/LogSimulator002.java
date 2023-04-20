@@ -7,9 +7,9 @@ import com.dzj.common.ComConfig;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-public class LogSimulator {
+public class LogSimulator002 {
 
-    private static final String TOPIC_NAME = "topic_db";
+    private static final String TOPIC_NAME = "topic_db_02";
 
     private static final Random random = new Random();
 
@@ -25,24 +25,25 @@ public class LogSimulator {
         Map<String, Long> map = new HashMap<>();
 
 
-        String deviceId = "76433276587";
-        String userCode = "4587483hfdkgjkdfh";
+        String deviceId = "12345";
+        String userCode = "lisi";
         String event = "001";
         String videoId = "";
         long time = 0;
         long startTime = 0;
         long endTime = 0;
-        long gap = 1000;
+        long gap = 900;
 
         map.put("ts", time);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             int rand = random.nextInt(6);
             switch (rand) {
                 case 0:
                     event = "001";
                     if (startTime == 0 || endTime != 0) {
                         videoId = generateVideoId();
+//                        videoId = "1000";
                         startTime = System.currentTimeMillis();
                         endTime = 0;
                         map.put(videoId, startTime);

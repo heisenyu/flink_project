@@ -6,7 +6,6 @@ import com.dzj.bean.LogBean;
 import com.dzj.bean.LogVideoBean;
 import com.dzj.utils.MyKafkaUtil;
 import com.dzj.utils.MysqlUtil;
-import com.google.gson.Gson;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SideOutputDataStream;
@@ -22,7 +21,7 @@ import org.apache.flink.util.OutputTag;
 import static org.apache.flink.table.api.Expressions.$;
 
 // 过滤脏数据，并按照种类分流
-public class BaseLogApp {
+public class BaseLogApp_v1 {
     public static void main(String[] args) throws Exception {
         // TODO 1. 环境准备
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -88,13 +87,13 @@ public class BaseLogApp {
                 //获取类型
                 String event = value.getString("event");
 
-                if (value.getJSONObject("Item").getString(" video_id") != null && ("001".equals(event) || "002".equals(event) || "003".equals(event))) {
+                if (value.getJSONObject("Item").getString("video_id") != null && ("001".equals(event) || "002".equals(event) || "003".equals(event))) {
                     ctx.output(videoTag, new LogVideoBean(
                             value.getString("deviceId"),
                             value.getString("userCode"),
                             value.getString("event"),
                             value.getString("ts"),
-                            value.getJSONObject("Item").getString(" video_id")
+                            value.getJSONObject("Item").getString("video_id")
                     ));
                 } else {
                     ctx.output(otherTag, value.toJSONString());
@@ -120,7 +119,7 @@ public class BaseLogApp {
 //                .execute().print();
 
         tableEnv.createTemporaryView("video_table", video_table);
-        tableEnv.toDataStream(video_table).print("result>>>>>>>>>>");
+//        tableEnv.toDataStream(video_table).print("result>>>>>>>>>>");
 
 
         Table videRresultTable = tableEnv.sqlQuery(
@@ -130,11 +129,13 @@ public class BaseLogApp {
                         "    vt.eventCode, " +
                         "    vt.ts, " +
                         "    vt.videoId, " +
-//                        "    vi.video_length as videoLength, " +
+                        "    vi.video_length as videoLength, " +
                         "    di.level " +
                         "FROM video_table AS vt " +
                         "JOIN doctor_info FOR SYSTEM_TIME AS OF vt.pt AS di " +
-                        "ON vt.userCode = di.user_id "
+                        "ON vt.userCode = di.user_id "+
+                        "JOIN video_info FOR SYSTEM_TIME AS OF vt.pt AS vi " +
+                        "ON vt.videoId = vi.video_id "
         );
 
 //        tableEnv.createTemporaryView("result_table", videRresultTable);
@@ -154,7 +155,7 @@ public class BaseLogApp {
                     jsonObject.put("eventCode", value.getField("eventCode"));
                     jsonObject.put("ts", value.getField("ts"));
                     jsonObject.put("videoId", value.getField("videoId"));
-//                    jsonObject.put("videoLength", value.getField("videoLength"));
+                    jsonObject.put("videoLength", value.getField("videoLength"));
                     jsonObject.put("level", value.getField("level"));
 
                     return jsonObject.toJSONString();

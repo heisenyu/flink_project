@@ -1,2 +1,4 @@
-package com.dzj.app.func;public class DwdVideoProcessFunc {
+package com.dzj.app.func;
+
+public class DwdVideoProcessFunc {
 }

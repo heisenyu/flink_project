@@ -1,2 +1,4 @@
-package com.dzj.utils;public class MyLookupQuery {
+package com.dzj.utils;
+
+public class MyLookupQuery {
 }

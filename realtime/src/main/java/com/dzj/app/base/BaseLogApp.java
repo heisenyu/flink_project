@@ -12,8 +12,11 @@ import org.apache.flink.streaming.api.datastream.SideOutputDataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
@@ -21,7 +24,7 @@ import org.apache.flink.util.OutputTag;
 import static org.apache.flink.table.api.Expressions.$;
 
 // 过滤脏数据，并按照种类分流
-public class BaseLogApp_v1 {
+public class BaseLogApp {
     public static void main(String[] args) throws Exception {
         // TODO 1. 环境准备
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -52,120 +55,143 @@ public class BaseLogApp_v1 {
         DataStreamSource<String> kafkaDS = env.addSource(MyKafkaUtil.getKafkaConsumer(topic, groupId));
 
 
-        //TODO 3.过滤掉非JSON格式的数据&将每行数据转换为JSON对象
+        //TODO 3.过滤掉非JSON格式的数据&将每行数据转换为log pojo对象
         OutputTag<String> dirtyTag = new OutputTag<String>("Dirty") {
         };
-        SingleOutputStreamOperator<JSONObject> jsonObjDS = kafkaDS.process(new ProcessFunction<String, JSONObject>() {
+        SingleOutputStreamOperator<LogBean> jsonObjDS = kafkaDS.process(new ProcessFunction<String, LogBean>() {
             @Override
-            public void processElement(String value, Context ctx, Collector<JSONObject> out) throws Exception {
+            public void processElement(String value, Context ctx, Collector<LogBean> out) throws Exception {
 
                 try {
                     //会过滤null，但不会过滤{}
                     JSONObject jsonObject = JSON.parseObject(value);
-                    out.collect(jsonObject);
+
+                    //根据 event类型 判断log类型
+                    String event = jsonObject.getString("event");
+                    String eventType = "";
+                    if ("001".equals(event) || "002".equals(event) || "003".equals(event)){
+                        eventType = "video";
+                    } else{
+                        eventType = "other";
+                    }
+
+                    out.collect(
+                            new LogBean(
+                                    jsonObject.getString("deviceId"),
+                                    jsonObject.getString("userCode"),
+                                    jsonObject.getString("event"),
+                                    eventType,
+                                    jsonObject.getString("ts"),
+                                    jsonObject.getJSONObject("Item").getString("resource_id")
+                            )
+                    );
                 } catch (Exception e) {
                     ctx.output(dirtyTag, value);
                 }
             }
         });
 
-//        jsonObjDS.print("jsonObjDS>>>>>>>");
+        // TODO 3.1 打印侧输出流
+        jsonObjDS.getSideOutput(dirtyTag).print("dirty>>>>");
 
-        //TODO 4. 使用侧输出流进行分流处理，按照event_code过滤，分流
-        OutputTag<String> caseTag = new OutputTag<String>("case") {
-        };
-        OutputTag<LogBean> videoTag = new OutputTag<LogBean>("video") {
-        };
+        // TODO 4.关联公共维度表
+        // TODO 4.1 将主流转换为动态表
+        Table main_table = tableEnv.fromDataStream(jsonObjDS,
+                Schema
+                        .newBuilder()
+                        .column("deviceId", DataTypes.STRING())
+                        .column("userCode", DataTypes.STRING())
+                        .column("eventCode", DataTypes.STRING())
+                        .column("eventType", DataTypes.STRING())
+                        .column("ts", DataTypes.STRING())
+                        .column("resourceId", DataTypes.STRING())
+                        .columnByExpression("pt","PROCTIME()")
+                        .build())
+                ;
+        
+        // TODO 4.2 将动态表转换为临时表
+        tableEnv.createTemporaryView("main_table", main_table);
 
-        OutputTag<String> otherTag = new OutputTag<String>("other") {
-        };
+//        main_table.execute().print();
 
-        SingleOutputStreamOperator<LogBean> allDS = jsonObjDS.process(new ProcessFunction<JSONObject, LogBean>() {
-
-            @Override
-            public void processElement(JSONObject value, ProcessFunction<JSONObject, LogBean>.Context ctx, Collector<LogBean> out) throws Exception {
-                //获取类型
-                String event = value.getString("event");
-
-                if (value.getJSONObject("Item").getString(" video_id") != null && ("001".equals(event) || "002".equals(event) || "003".equals(event))) {
-                    ctx.output(videoTag, new LogVideoBean(
-                            value.getString("deviceId"),
-                            value.getString("userCode"),
-                            value.getString("event"),
-                            value.getString("ts"),
-                            value.getJSONObject("Item").getString(" video_id")
-                    ));
-                } else {
-                    ctx.output(otherTag, value.toJSONString());
-                }
-
-            }
-        });
-
-        //TODO 5.打印侧输出流
-        allDS.getSideOutput(otherTag).print("other>>>>>>");
-
-        SideOutputDataStream<LogBean> videoDS = allDS.getSideOutput(videoTag);
-        SingleOutputStreamOperator<LogVideoBean> video = videoDS.map(data -> (LogVideoBean) data);
-
-        //注册doctor_info维度表
+        // TODO 4.2 look_up join
+        // todo 4.2.1 注册doctor_info维度表，关联字段为userCode
         tableEnv.executeSql(MysqlUtil.getDoctorInfoLookUpDDL());
 
-        //注册video_info流
+        Table levelRresultTable = tableEnv.sqlQuery(
+                "SELECT " +
+                "    mt.deviceId, " +
+                "    mt.userCode, " +
+                "    mt.eventCode, " +
+                "    mt.eventType, " +
+                "    mt.ts, " +
+                "    mt.resourceId, " +
+                "    mt.pt," +
+                "    di.level " +
+                "FROM main_table AS mt " +
+                "JOIN doctor_info FOR SYSTEM_TIME AS OF mt.pt AS di " +
+                "ON mt.userCode = di.user_id ");
+
+        // 将动态表转换为临时表
+        tableEnv.createTemporaryView("level_table", levelRresultTable);
+
+        // 打印
+//        tableEnv.toAppendStream(levelRresultTable, Row.class).print("level>>>>");
+
+
+        // TODO 5.关联其他维度表
+
+        // 关联video_info维度表
+        // todo 5.1 注册video_info维度表，关联字段为resourceId
         tableEnv.executeSql(MysqlUtil.getVideoInfoLookUpDDL());
+        Table videoRresultTable = tableEnv.sqlQuery(
+                "SELECT " +
+                "    lt.deviceId, " +
+                "    lt.userCode, " +
+                "    lt.eventCode, " +
+                "    lt.ts, " +
+                "    lt.resourceId, " +
+                "    lt.level, " +
+                "    vi.video_length " +
+                "FROM level_table AS lt " +
+                "JOIN video_info FOR SYSTEM_TIME AS OF lt.pt AS vi " +
+                "ON lt.resourceId = vi.video_id " +
+                "WHERE lt.eventType = 'video' ");
 
-        //TODO 6.将流转换为表
-        Table video_table = tableEnv.fromDataStream(video, $("deviceId"), $("userCode"), $("eventCode"), $("ts"), $("videoId"), $("pt").proctime());
-//                .execute().print();
+        tableEnv.createTemporaryView("video_table", videoRresultTable);
 
-        tableEnv.createTemporaryView("video_table", video_table);
-        tableEnv.toDataStream(video_table).print("result>>>>>>>>>>");
+        // 打印
+        tableEnv.toAppendStream(videoRresultTable, Row.class).print("video>>>>");
 
+        // todo 5.2 建立 Kafka-Connector dwd_video_info 表
+        tableEnv.executeSql("" +
+                "create table dwd_video_info( " +
+                "    deviceId string, " +
+                "    userCode string, " +
+                "    eventCode string, " +
+                "    ts string, " +
+                "    resourceId string, " +
+                "    level int, " +
+                "    video_length int " +
+                ")" + MyKafkaUtil.getKafkaSinkDDL("dwd_video_info"));
 
-        Table videRresultTable = tableEnv.sqlQuery(
-                     "SELECT " +
-                        "    vt.deviceId, " +
-                        "    vt.userCode, " +
-                        "    vt.eventCode, " +
-                        "    vt.ts, " +
-                        "    vt.videoId, " +
-//                        "    vi.video_length as videoLength, " +
-                        "    di.level " +
-                        "FROM video_table AS vt " +
-                        "JOIN doctor_info FOR SYSTEM_TIME AS OF vt.pt AS di " +
-                        "ON vt.userCode = di.user_id "
-        );
-
-//        tableEnv.createTemporaryView("result_table", videRresultTable);
+        // todo 5.3 将结果表写入到kafka
+        videoRresultTable.executeInsert("dwd_video_info");
 
 
-        //TODO 7.将结果表写入到kafka
-        DataStream<Row> rowDS = tableEnv.toDataStream(videRresultTable);
 
-        SingleOutputStreamOperator<String> map = rowDS.map(
-                value -> {
 
-                    System.out.println(value.toString());
-                    // 转换成JSON字符串
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("deviceId", value.getField("deviceId"));
-                    jsonObject.put("userCode", value.getField("userCode"));
-                    jsonObject.put("eventCode", value.getField("eventCode"));
-                    jsonObject.put("ts", value.getField("ts"));
-                    jsonObject.put("videoId", value.getField("videoId"));
-//                    jsonObject.put("videoLength", value.getField("videoLength"));
-                    jsonObject.put("level", value.getField("level"));
 
-                    return jsonObject.toJSONString();
-//                   return new Gson().toJson(value);
-                }
-        );
 
-        map.print("result>>>>>>>>>>");
 
-        //建立 Kafka-Connector dwd_trade_cart_add 表
-//        resultTable.execute().print();
-
+//        OutputTag<String> caseTag = new OutputTag<String>("case") {
+//        };
+//        OutputTag<LogBean> videoTag = new OutputTag<LogBean>("video") {
+//        };
+//        OutputTag<String> otherTag = new OutputTag<String>("other") {
+//        };
+//
+//
         env.execute("BaseLogApp");
 
 

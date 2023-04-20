@@ -1,4 +1,4 @@
-package com.atguigu.utils;
+package com.dzj.utils;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.util.Date;
 public class DateFormatUtil {
 
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter dtfFull = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter dtfFull = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
     public static Long toTs(String dtStr, boolean isFull) {
         LocalDateTime localDateTime = null;

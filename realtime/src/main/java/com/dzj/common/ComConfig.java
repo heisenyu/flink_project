@@ -1,9 +1,20 @@
 package com.dzj.common;
 
-public class GmallConfig {
+public class ComConfig {
+
+    // Mysql 连接地址
+    public static final String MYSQL_URL = "jdbc:mysql://172.29.28.186:3306/dzj";
+
+    //MYSQL 用户名
+    public static final String MYSQL_USER = "root";
+
+    //MYSQL 密码
+    public static final String MYSQL_PASSWORD = "123456";
+
 
     //kafka连接参数
-    public static String KAFKA_BOOTSTRAP_SERVERS = "hadoop102:9092, hadoop103:9092, hadoop104:9092";
+    public static final String KAFKA_BOOTSTRAP_SERVERS = "cdh001:9092,cdh002:9092,cdh003:9092";
+    ;
 
     // Phoenix库名
     public static final String HBASE_SCHEMA = "GMALL211126_REALTIME";
