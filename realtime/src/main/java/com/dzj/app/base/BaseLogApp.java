@@ -6,6 +6,8 @@ import com.dzj.bean.LogBean;
 import com.dzj.bean.LogVideoBean;
 import com.dzj.utils.MyKafkaUtil;
 import com.dzj.utils.MysqlUtil;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SideOutputDataStream;
@@ -51,7 +53,7 @@ public class BaseLogApp {
 
         // TODO 2. 读取日志数据主流
         String topic = "topic_log_kjm";
-        String groupId = "base_log_app";
+        String groupId = "base_log_app_group";
         DataStreamSource<String> kafkaDS = env.addSource(MyKafkaUtil.getKafkaConsumer(topic, groupId));
 
 
@@ -81,7 +83,7 @@ public class BaseLogApp {
                                     jsonObject.getString("userCode"),
                                     jsonObject.getString("event"),
                                     eventType,
-                                    jsonObject.getString("ts"),
+                                    jsonObject.getLong("ts"),
                                     jsonObject.getJSONObject("Item").getString("resource_id")
                             )
                     );
@@ -103,7 +105,7 @@ public class BaseLogApp {
                         .column("userCode", DataTypes.STRING())
                         .column("eventCode", DataTypes.STRING())
                         .column("eventType", DataTypes.STRING())
-                        .column("ts", DataTypes.STRING())
+                        .column("ts", DataTypes.BIGINT())
                         .column("resourceId", DataTypes.STRING())
                         .columnByExpression("pt","PROCTIME()")
                         .build())
@@ -169,7 +171,7 @@ public class BaseLogApp {
                 "    deviceId string, " +
                 "    userCode string, " +
                 "    eventCode string, " +
-                "    ts string, " +
+                "    ts bigint, " +
                 "    resourceId string, " +
                 "    level int, " +
                 "    video_length int " +

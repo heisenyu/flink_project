@@ -16,7 +16,7 @@ public class LogBean {
 
     String eventType;
 
-    String ts;
+    Long ts;
 
     String resourceId;
 }

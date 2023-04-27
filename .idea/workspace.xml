@@ -4,36 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75251823-765a-4608-9b7e-a6c2e3b69b58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="75251823-765a-4608-9b7e-a6c2e3b69b58" name="Changes" comment="second commit">
+      <change afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/JedisUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp_v1.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp_v1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/CreditRuleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/CreditRuleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/demo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dim/DimSinkApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dim/DimSinkApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp_v1.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dwd/DwdVideoInfoApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dwd/DwdVideoInfoApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdTriggerFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdTriggerFunc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdVideoProcessFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdVideoProcessFunc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogVideoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogVideoBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/ComConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/ComConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/KafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/KafkaConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/DateFormatUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/DateFormatUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator002.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator002.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator003.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator003.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyLookupQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyLookupQuery.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MysqlUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MysqlUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/user_log_ofcredit" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/user_log_ofcredit" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/resources/log4j.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +36,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -73,26 +63,26 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "last_opened_file_path": "D:/develop/WorkSpaces/IdeaProjects/flink_project/realtime",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "http.proxy",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/develop/WorkSpaces/IdeaProjects/flink_project/realtime&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\develop\WorkSpaces\IdeaProjects\flink_project\realtime\src\main\java\com\dzj\utils" />
@@ -102,7 +92,7 @@
       <recent name="com.dzj.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.LogSimulator003">
+  <component name="RunManager" selected="Application.MyKafkaProducer">
     <configuration name="BaseLogApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.dzj.app.base.BaseLogApp" />
       <module name="realtime" />
@@ -116,7 +106,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DwdVideoInfoApp (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="DwdVideoInfoApp (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.dzj.app.dwd.DwdVideoInfoApp" />
       <module name="realtime" />
       <extension name="coverage">
@@ -142,8 +132,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LogSimulator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.dzj.utils.LogSimulator" />
+    <configuration name="JedisUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dzj.utils.JedisUtil" />
       <module name="realtime" />
       <extension name="coverage">
         <pattern>
@@ -155,8 +145,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LogSimulator003" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.dzj.utils.LogSimulator003" />
+    <configuration name="MyKafkaProducer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dzj.utils.MyKafkaProducer" />
       <module name="realtime" />
       <extension name="coverage">
         <pattern>
@@ -170,11 +160,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LogSimulator003" />
+        <item itemvalue="Application.MyKafkaProducer" />
         <item itemvalue="Application.DwdVideoInfoApp" />
+        <item itemvalue="Application.JedisUtil" />
         <item itemvalue="Application.BaseLogApp" />
-        <item itemvalue="Application.DwdVideoInfoApp (1)" />
-        <item itemvalue="Application.LogSimulator" />
+        <item itemvalue="Application.DwdVideoInfoApp (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -192,8 +182,17 @@
       <workItem from="1681096396169" duration="50893000" />
       <workItem from="1681353584770" duration="614000" />
       <workItem from="1681354287109" duration="26200000" />
-      <workItem from="1681694024677" duration="59886000" />
+      <workItem from="1681694024677" duration="76698000" />
+      <workItem from="1682410174195" duration="35007000" />
     </task>
+    <task id="LOCAL-00001" summary="second commit">
+      <created>1681987179598</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681987179598</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,11 +203,27 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="second commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="second commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -33,15 +33,15 @@ public class MyKafkaProducer {
         // 3. 创建kafka生产者对象
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
 
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Current working directory: " + currentDir);
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("realtime/src/main/java/com/dzj/utils/user_log_ofcredit"))) {
             String str;
             while ((str = bufferedReader.readLine()) != null) {
 
+                System.out.println(str);
+
                 // 写入 topic
-                ProducerRecord<String, String> record = new ProducerRecord<>("topic_db", null, str);
+                ProducerRecord<String, String> record = new ProducerRecord<>("topic_log_kjm", null, str);
 
                 // 将数据发送到 kafka
                 producer.send(record).get();

@@ -9,7 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 public class LogSimulator002 {
 
-    private static final String TOPIC_NAME = "topic_db_02";
+    private static final String TOPIC_NAME = "topic_log_kjm";
 
     private static final Random random = new Random();
 
@@ -25,14 +25,17 @@ public class LogSimulator002 {
         Map<String, Long> map = new HashMap<>();
 
 
-        String deviceId = "12345";
-        String userCode = "lisi";
-        String event = "001";
+        String deviceId = "abcd";
+        String userCode = "";
+        String[] userCodes = {"1001", "1002", "1003"};
+        String event = "";
         String videoId = "";
-        long time = 0;
+        String[] videoIds = {"1001", "1002", "1003"};
+
+        long time = System.currentTimeMillis();
         long startTime = 0;
         long endTime = 0;
-        long gap = 900;
+        long gap = 0;
 
         map.put("ts", time);
 
@@ -42,60 +45,49 @@ public class LogSimulator002 {
                 case 0:
                     event = "001";
                     if (startTime == 0 || endTime != 0) {
-                        videoId = generateVideoId();
-//                        videoId = "1000";
-                        startTime = System.currentTimeMillis();
+//                        userCode = selectRandomUser(userCodes);
+                        userCode = "1001";
+                        videoId = selectRandomVideo(videoIds);
+                        startTime = map.get("ts");
                         endTime = 0;
-                        map.put(videoId, startTime);
+                        map.put(userCode + videoId, startTime);
                         map.put("ts", startTime);
                         JSONObject item = new JSONObject();
-                        item.put("vedio_id", videoId);
-                        item.put("strat_time", String.valueOf(startTime));
+                        item.put("resource_id", videoId);
                         sendLog(producer, deviceId, userCode, event, map.get("ts"), item);
                     }
                     break;
                 case 1:
-                case 2:
-                case 3:
-                case 4:
-                    if (startTime != 0 && endTime == 0) {
-                        event = "002";
-                        //获取map中的time，然后加上10s
-                        long currentTime = map.get(videoId) + gap;
-                        map.put(videoId, currentTime);
-                        map.put("ts", currentTime);
-                        JSONObject item = new JSONObject();
-                        item.put("vedio_id", videoId);
-                        item.put("currentTime", String.valueOf(currentTime));
-                        sendLog(producer, deviceId, userCode, event, map.get("ts"), item);
-                    }
-                    break;
-                case 5:
                     if (startTime != 0 && !event.equals("003")) {
                         event = "003";
                         //获取map中的time，然后加上10s
-                        endTime = map.get(videoId) + gap;
-                        map.put(videoId, endTime);
+                        endTime = map.get(userCode + videoId) + gap;
+                        map.put(userCode + videoId, endTime);
                         map.put("ts", endTime);
                         JSONObject item = new JSONObject();
-                        item.put("vedio_id", videoId);
-                        item.put("endTime", String.valueOf(endTime));
+                        item.put("resource_id", videoId);
                         int cho = random.nextInt(2);
                         if (cho == 0) {
                             sendLog(producer, deviceId, userCode, event, map.get("ts"), item);
                         }
-
+                    }
+                    break;
+                case 2:
+                case 3:
+                    if (startTime != 0 && endTime == 0) {
+                        event = "002";
+                        //获取map中的time，然后加上10s
+                        long currentTime = map.get(userCode + videoId) + gap;
+                        map.put(userCode + videoId, currentTime);
+                        map.put("ts", currentTime);
+                        JSONObject item = new JSONObject();
+                        item.put("resource_id", videoId);
+                        sendLog(producer, deviceId, userCode, event, map.get("ts"), item);
                     }
                     break;
             }
             Thread.sleep(1000);
         }
-
-//        if (startTime != 0 && endTime == 0) {
-//            event = "003";
-//            endTime = System.currentTimeMillis();
-//            sendLog(producer, deviceId, userCode, event, videoId, endTime);
-//        }
 
         producer.close();
     }
@@ -113,6 +105,18 @@ public class LogSimulator002 {
 
     private static String generateVideoId() {
         return String.valueOf(random.nextInt(10000));
+    }
+
+    public static String selectRandomVideo(String[] videoIds) {
+        Random rand = new Random();
+        int index = rand.nextInt(videoIds.length);
+        return videoIds[index];
+    }
+
+    public static String selectRandomUser(String[] userCodes) {
+        Random rand = new Random();
+        int index = rand.nextInt(userCodes.length);
+        return userCodes[index];
     }
 }
 

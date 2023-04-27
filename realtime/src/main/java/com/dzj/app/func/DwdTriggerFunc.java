@@ -63,7 +63,7 @@ public class DwdTriggerFunc extends Trigger<JSONObject, TimeWindow> {
 
     @Override
     public void onMerge(TimeWindow window, OnMergeContext ctx) {
-        System.out.println("合并窗口");
+//        System.out.println("合并窗口");
         long windowMaxTimestamp = window.maxTimestamp();
         if (windowMaxTimestamp > ctx.getCurrentWatermark()) {
 //            System.out.println("合并——》注册定时器：" + DateFormatUtil.toYmdHms(windowMaxTimestamp));

@@ -1,4 +1,13 @@
-{"deviceId":"76433276587","userCode":"4587483hfdkgjkdfh","accountCode":"45r4t43f34","time":"1680159008045","event":"001","termainal":"医生版小程序","properties":{"app_version":"1.0.0","ip":"127.0.0.1","province":"上海","city":"上海","user_agent":"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/58.0.3029.113 Mobile/14F89 Safari/602.1","os":"Win10","osVersion":"MacOS","browser":"Chrome","browserVersion":"Chrome 111.0.5563.65（正式版本） （64 位）","manufacturer":"RedMi","carrier":"联通","networkType":"4G"},"Item":{"productId":"45436546"}}
-我不是json
-
-{}
+{"deviceId":"abcd","userCode":"1001","event":"001","ts":1682412298614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412307614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412316614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412325614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412334614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412343614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"003","ts":1682412352614,"Item":{"resource_id":"1001"}}
+{"deviceId":"abcd","userCode":"1001","event":"001","ts":1682412352614,"Item":{"resource_id":"1003"}}
+{"deviceId":"abcd","userCode":"1001","event":"002","ts":1682412361614,"Item":{"resource_id":"1003"}}
+{"deviceId":"abcd","userCode":"1001","event":"003","ts":1682412370614,"Item":{"resource_id":"1003"}}
+{"deviceId":"abcd","userCode":"1001","event":"001","ts":1682412370614,"Item":{"resource_id":"1002"}}
+{"deviceId":"abcd","userCode":"1001","event":"003","ts":1682412379614,"Item":{"resource_id":"1002"}}
+{"deviceId":"abcd","userCode":"1001","event":"003","ts":1682412979614,"Item":{"resource_id":"1002"}}
