@@ -3,35 +3,33 @@ package com.dzj.app.base;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.dzj.bean.LogBean;
-import com.dzj.bean.LogVideoBean;
 import com.dzj.utils.MyKafkaUtil;
-import com.dzj.utils.MysqlUtil;
-import org.apache.flink.streaming.api.datastream.DataStream;
+import com.dzj.utils.mysql.MysqlUtil;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.datastream.SideOutputDataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
-
-import static org.apache.flink.table.api.Expressions.$;
 
 // 过滤脏数据，并按照种类分流
 public class BaseLogApp {
     public static void main(String[] args) throws Exception {
         // TODO 1. 环境准备
+//        Configuration configuration = new Configuration();
+//        configuration.setString(RestOptions.BIND_PORT, "8081-8099");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(3);
+
+
         // 获取表环境
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
-
+        env.setParallelism(3);
         // TODO 1.1 开启CheckPoint
 //        env.enableCheckpointing(3000L, CheckpointingMode.EXACTLY_ONCE);
 //        env.getCheckpointConfig().setCheckpointTimeout(60 * 1000L);
@@ -50,8 +48,8 @@ public class BaseLogApp {
 //        System.setProperty("HADOOP_USER_NAME", "dzj_bd");
 
         // TODO 2. 读取日志数据主流
-        String topic = "topic_log_kjm";
-        String groupId = "base_log_app";
+        String topic = "topic_log_zly";
+        String groupId = "base_log_app_zly";
         DataStreamSource<String> kafkaDS = env.addSource(MyKafkaUtil.getKafkaConsumer(topic, groupId));
 
 
@@ -69,9 +67,9 @@ public class BaseLogApp {
                     //根据 event类型 判断log类型
                     String event = jsonObject.getString("event");
                     String eventType = "";
-                    if ("001".equals(event) || "002".equals(event) || "003".equals(event)){
+                    if ("001".equals(event) || "002".equals(event) || "003".equals(event)) {
                         eventType = "video";
-                    } else{
+                    } else {
                         eventType = "other";
                     }
 
@@ -105,38 +103,39 @@ public class BaseLogApp {
                         .column("eventType", DataTypes.STRING())
                         .column("ts", DataTypes.STRING())
                         .column("resourceId", DataTypes.STRING())
-                        .columnByExpression("pt","PROCTIME()")
-                        .build())
-                ;
-        
+                        .columnByExpression("pt", "PROCTIME()")
+                        .build());
+
         // TODO 4.2 将动态表转换为临时表
         tableEnv.createTemporaryView("main_table", main_table);
 
 //        main_table.execute().print();
 
         // TODO 4.2 look_up join
+        //
         // todo 4.2.1 注册doctor_info维度表，关联字段为userCode
         tableEnv.executeSql(MysqlUtil.getDoctorInfoLookUpDDL());
 
         Table levelRresultTable = tableEnv.sqlQuery(
                 "SELECT " +
-                "    mt.deviceId, " +
-                "    mt.userCode, " +
-                "    mt.eventCode, " +
-                "    mt.eventType, " +
-                "    mt.ts, " +
-                "    mt.resourceId, " +
-                "    mt.pt," +
-                "    di.level " +
-                "FROM main_table AS mt " +
-                "JOIN doctor_info FOR SYSTEM_TIME AS OF mt.pt AS di " +
-                "ON mt.userCode = di.user_id ");
+                        "    mt.deviceId, " +
+                        "    mt.userCode, " +
+                        "    mt.eventCode, " +
+                        "    mt.eventType, " +
+                        "    mt.ts, " +
+                        "    mt.resourceId, " +
+                        "    mt.pt," +
+                        "    di.level " +
+                        "FROM main_table AS mt " +
+                        "JOIN doctor_info FOR SYSTEM_TIME AS OF mt.pt AS di " +
+                        "ON mt.userCode = di.user_id ");
 
         // 将动态表转换为临时表
         tableEnv.createTemporaryView("level_table", levelRresultTable);
 
         // 打印
 //        tableEnv.toAppendStream(levelRresultTable, Row.class).print("level>>>>");
+
 
 
         // TODO 5.关联其他维度表
@@ -146,17 +145,17 @@ public class BaseLogApp {
         tableEnv.executeSql(MysqlUtil.getVideoInfoLookUpDDL());
         Table videoRresultTable = tableEnv.sqlQuery(
                 "SELECT " +
-                "    lt.deviceId, " +
-                "    lt.userCode, " +
-                "    lt.eventCode, " +
-                "    lt.ts, " +
-                "    lt.resourceId, " +
-                "    lt.level, " +
-                "    vi.video_length " +
-                "FROM level_table AS lt " +
-                "JOIN video_info FOR SYSTEM_TIME AS OF lt.pt AS vi " +
-                "ON lt.resourceId = vi.video_id " +
-                "WHERE lt.eventType = 'video' ");
+                        "    lt.deviceId, " +
+                        "    lt.userCode, " +
+                        "    lt.eventCode, " +
+                        "    lt.ts, " +
+                        "    lt.resourceId, " +
+                        "    lt.level, " +
+                        "    vi.video_length " +
+                        "FROM level_table AS lt " +
+                        "JOIN video_info FOR SYSTEM_TIME AS OF lt.pt AS vi " +
+                        "ON lt.resourceId = vi.video_id " +
+                        "WHERE lt.eventType = 'video' ");
 
         tableEnv.createTemporaryView("video_table", videoRresultTable);
 
@@ -164,8 +163,8 @@ public class BaseLogApp {
         tableEnv.toAppendStream(videoRresultTable, Row.class).print("video>>>>");
 
         // todo 5.2 建立 Kafka-Connector dwd_video_info 表
-        tableEnv.executeSql("" +
-                "create table dwd_video_info( " +
+        TableResult tableResult = tableEnv.executeSql("" +
+                "create table dwd_video_info_zly( " +
                 "    deviceId string, " +
                 "    userCode string, " +
                 "    eventCode string, " +
@@ -173,15 +172,10 @@ public class BaseLogApp {
                 "    resourceId string, " +
                 "    level int, " +
                 "    video_length int " +
-                ")" + MyKafkaUtil.getKafkaSinkDDL("dwd_video_info"));
-
+                ")" + MyKafkaUtil.getKafkaSinkDDL("dwd_video_info_zly"));
+        tableResult.print();
         // todo 5.3 将结果表写入到kafka
-        videoRresultTable.executeInsert("dwd_video_info");
-
-
-
-
-
+        videoRresultTable.executeInsert("dwd_video_info_zly");
 
 
 //        OutputTag<String> caseTag = new OutputTag<String>("case") {

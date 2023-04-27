@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.dzj.bean.LogBean;
 import com.dzj.bean.LogVideoBean;
 import com.dzj.utils.MyKafkaUtil;
-import com.dzj.utils.MysqlUtil;
+import com.dzj.utils.mysql.MysqlUtil;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SideOutputDataStream;

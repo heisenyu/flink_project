@@ -9,7 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 public class LogSimulator {
 
-    private static final String TOPIC_NAME = "topic_log_kjm";
+    private static final String TOPIC_NAME = "topic_log_zly";
 
     private static final Random random = new Random();
 
@@ -37,7 +37,7 @@ public class LogSimulator {
 
         map.put("ts", time);
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 5000; i++) {
             int rand = random.nextInt(6);
             switch (rand) {
                 case 0:

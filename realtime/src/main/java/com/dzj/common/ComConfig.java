@@ -3,7 +3,7 @@ package com.dzj.common;
 public class ComConfig {
 
     // Mysql 连接地址
-    public static final String MYSQL_URL = "jdbc:mysql://172.29.28.186:3306/dzj";
+    public static final String MYSQL_URL = "jdbc:mysql://172.29.28.186:3306/";
 
     //MYSQL 用户名
     public static final String MYSQL_USER = "root";

@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class LogSimulator003 {
 
-    private static final String TOPIC_NAME = "topic_log_kjm";
+    private static final String TOPIC_NAME = "topic_log_zly";
 
     private static final Random random = new Random();
 
