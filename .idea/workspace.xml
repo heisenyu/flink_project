@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75251823-765a-4608-9b7e-a6c2e3b69b58" name="Changes" comment="second commit">
-      <change afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/JedisUtil.java" afterDir="false" />
+    <list default="true" id="75251823-765a-4608-9b7e-a6c2e3b69b58" name="Changes" comment="redis基本开发完成">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/BaseLogApp_v1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dwd/DwdVideoInfoApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dwd/DwdVideoInfoApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdTriggerFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/func/DwdTriggerFunc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogVideoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/bean/LogVideoBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/CreditRuleApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/base/demo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/app/dim/DimSinkApp.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/ComConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/ComConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator002.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/LogSimulator002.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyKafkaProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MysqlUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MysqlUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/user_log_ofcredit" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/user_log_ofcredit" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/common/KafkaConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/KafkaConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/realtime/src/main/java/com/dzj/utils/MyLookupQuery.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="kjm" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -161,10 +154,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MyKafkaProducer" />
-        <item itemvalue="Application.DwdVideoInfoApp" />
         <item itemvalue="Application.JedisUtil" />
-        <item itemvalue="Application.BaseLogApp" />
         <item itemvalue="Application.DwdVideoInfoApp (2)" />
+        <item itemvalue="Application.DwdVideoInfoApp" />
+        <item itemvalue="Application.BaseLogApp" />
       </list>
     </recent_temporary>
   </component>
@@ -183,7 +176,8 @@
       <workItem from="1681353584770" duration="614000" />
       <workItem from="1681354287109" duration="26200000" />
       <workItem from="1681694024677" duration="76698000" />
-      <workItem from="1682410174195" duration="35007000" />
+      <workItem from="1682410174195" duration="37038000" />
+      <workItem from="1682562850533" duration="431000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1681987179598</created>
@@ -192,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681987179598</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="redis基本开发完成">
+      <created>1682560729514</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682560729514</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,7 +224,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="second commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="second commit" />
+    <MESSAGE value="redis基本开发完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="redis基本开发完成" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

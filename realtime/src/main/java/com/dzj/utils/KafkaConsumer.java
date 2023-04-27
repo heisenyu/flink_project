@@ -1,4 +1,4 @@
-package com.dzj.common;
+package com.dzj.utils;
 
 import com.dzj.utils.MyKafkaUtil;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
